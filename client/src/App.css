@@ -10,23 +10,77 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  padding: 50px 10px; 
+  padding: 50px 10px;
+}
+
+/* --- NEW: Controls Container --- */
+/* This groups the dropdown and button together */
+.controls-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows them to stack on small screens */
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 select {
   font-size: 1.2rem;
-  padding: 5px 10px;
-  margin-top: 20px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+}
+
+.location-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.location-button:hover {
+  background-color: #45a049;
+}
+
+/* --- NEW: Content Area --- */
+/* This new container will hold our spinner, message, or data */
+.content-area {
+  width: 100%;
+  max-width: 900px; /* Matches our chart width */
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- NEW: Spinner Container --- */
+.spinner-container {
+  padding: 100px;
+}
+
+/* --- NEW: Welcome Message --- */
+.welcome-message {
+  padding: 100px 20px;
+  color: #aaa;
+  font-style: italic;
 }
 
 .info-card-container {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 20px;
-  margin-top: 30px;
   width: 100%;
-  max-width: 900px;
 }
 
 .info-card {
@@ -37,6 +91,12 @@ select {
   align-items: center;
   min-width: 250px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out; /* <-- Added subtle effect */
+}
+
+/* --- NEW: Hover Effect --- */
+.info-card:hover {
+  transform: translateY(-5px);
 }
 
 .info-card-icon {
@@ -65,31 +125,9 @@ select {
 
 .chart-container {
   margin-top: 30px;
-  width: 100%; 
-  max-width: 900px;
+  width: 100%;
   background-color: #3a3f4a;
   padding: 20px;
   border-radius: 8px;
-  box-sizing: border-box; 
-}
-
-.location-button {
-  background-color: #4CAF50; 
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-flex; 
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  margin-top: 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.location-button:hover {
-  background-color: #45a049;
+  box-sizing: border-box;
 }
