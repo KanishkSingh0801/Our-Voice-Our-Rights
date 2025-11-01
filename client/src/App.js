@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { FaUsers, FaHome, FaCheckCircle, FaExclamationCircle, FaMapMarkerAlt } from 'react-icons/fa'; 
 import { Bar } from 'react-chartjs-2';
-import { ClipLoader } from 'react-spinners'; // <-- 1. IMPORT THE SPINNER
+import { ClipLoader } from 'react-spinners'; 
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,10 +27,8 @@ function App() {
   const [latestData, setLatestData] = useState(null);
   const [locationStatus, setLocationStatus] = useState('मेरी लोकेशन पता करें');
 
-  // --- 2. ADD NEW LOADING STATE ---
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch district list
   useEffect(() => {
     setIsLoading(true); // Start loading
     fetch(`${baseURL}/api/districts`) 
@@ -46,7 +44,6 @@ function App() {
       });
   }, []); 
 
-  // Format chart and info card data (no change)
   useEffect(() => {
     if (districtData.length > 0) {
       const latest = districtData[districtData.length - 1];
@@ -64,38 +61,36 @@ function App() {
 
   const fetchDistrictData = (districtName) => {
     if (districtName) {
-      setIsLoading(true); // --- 3. START LOADING ---
+      setIsLoading(true); 
       setDistrictData([]); // Clear old data
       fetch(`${baseURL}/api/data/${districtName}`) 
         .then(response => response.json())
         .then(data => {
           setDistrictData(data);
-          setIsLoading(false); // --- 4. STOP LOADING ---
+          setIsLoading(false); 
         })
         .catch(error => {
           console.error("Error fetching district data:", error);
-          setIsLoading(false); // --- 4. STOP LOADING (on error) ---
+          setIsLoading(false); 
         });
     } else {
       setDistrictData([]);
     }
   };
 
-  // Handle dropdown selection (no change)
   const handleDistrictChange = (event) => {
     const newDistrict = event.target.value;
     setSelectedDistrict(newDistrict);
     fetchDistrictData(newDistrict);
   };
 
-  // Geolocation Handler (no change, but we add loading states)
   const handleLocationClick = () => {
     if (!navigator.geolocation) {
       setLocationStatus("आपका ब्राउज़र लोकेशन सपोर्ट नहीं करता");
       return;
     }
     setLocationStatus("पता कर रहे हैं..."); 
-    setIsLoading(true); // --- 3. START LOADING ---
+    setIsLoading(true); 
 
     navigator.geolocation.getCurrentPosition(async (position) => {
       const { latitude, longitude } = position.coords;
@@ -110,29 +105,28 @@ function App() {
           if (districts.includes(foundDistrict)) {
             setLocationStatus(`आपका जिला: ${foundDistrict}`);
             setSelectedDistrict(foundDistrict);
-            fetchDistrictData(foundDistrict); // This will handle setting isLoading to false
+            fetchDistrictData(foundDistrict); 
           } else {
             setLocationStatus("लोकेशन मिली, पर जिला मैच नहीं हुआ");
-            setIsLoading(false); // --- 4. STOP LOADING (on error) ---
+            setIsLoading(false); 
           }
         } else {
           setLocationStatus("जिला नहीं मिल पाया");
-          setIsLoading(false); // --- 4. STOP LOADING (on error) ---
+          setIsLoading(false); 
         }
       } else {
         setLocationStatus("लोकेशन को पते में नहीं बदल पाया");
-        setIsLoading(false); // --- 4. STOP LOADING (on error) ---
+        setIsLoading(false); 
       }
     }, () => {
       setLocationStatus("लोकेशन की अनुमति नहीं मिली"); 
-      setIsLoading(false); // --- 4. STOP LOADING (on error) ---
+      setIsLoading(false); 
     });
   };
 
-  // --- 5. RENDER FUNCTION (now with loading logic) ---
   const renderContent = () => {
     if (isLoading) {
-      // Show spinner if loading
+
       return (
         <div className="spinner-container">
           <ClipLoader color="#ffffff" size={80} />
@@ -141,7 +135,6 @@ function App() {
     }
 
     if (!selectedDistrict) {
-      // Show welcome message if no district is selected
       return (
         <div className="welcome-message">
           <h3>कृपया शुरू करने के लिए एक जिला चुनें या अपनी लोकेशन का पता लगाएँ।</h3>
@@ -149,7 +142,6 @@ function App() {
       );
     }
 
-    // Show data if a district is selected and not loading
     return (
       <>
         {latestData && (

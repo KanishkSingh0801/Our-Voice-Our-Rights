@@ -1,25 +1,17 @@
-const axios = require('axios'); // For downloading
+const axios = require('axios'); 
 const pgp = require('pg-promise')();
 
-// --- 1. CONFIGURATION ---
-
-// PASTE YOUR SUPABASE CONNECTION STRING HERE (with encoded password)
 const DB_CONNECTION_STRING = "postgresql://postgres.fijozxcvujbzamrwyqkw:Kanishk%40123@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres";
 
-// PASTE YOUR API KEY FROM data.gov.in HERE
 const API_KEY = "579b464db66ec23bdd000001c86ebfa691574b6f72bc89a3bfda855d"; // Starts with 579b464...
 
-// API Details
 const API_RESOURCE_ID = "ee03643a-ee4c-48c2-ac30-9f2ff26ab722";
 const API_BASE_URL = "https://api.data.gov.in/resource/";
 
-// Connect to your Supabase DB
 const db = pgp(DB_CONNECTION_STRING);
 
-// --- 2. TRANSFORM FUNCTION ---
-// This function cleans a single JSON 'record' from the API
 function transformRow(record) {
-  // The API uses the header names as keys, so this logic is the same
+
   const cleanNumber = (value) => {
     if (typeof value !== 'string') return value;
     const num = parseFloat(value.replace(/,/g, ''));
@@ -42,7 +34,6 @@ function transformRow(record) {
   };
 }
 
-// --- 3. MAIN ETL PROCESS ---
 async function processData() {
   console.log("Starting automated data pipeline...");
 
@@ -52,10 +43,8 @@ async function processData() {
   let totalRecords = 0;
 
   try {
-    // --- 3a. EXTRACT & PAGINATE ---
     console.log("Fetching data from data.gov.in API...");
     do {
-      // Build the API URL for this "page" of data
       const apiUrl = `${API_BASE_URL}${API_RESOURCE_ID}` +
                      `?api-key=${API_KEY}` +
                      `&format=json` +
@@ -83,11 +72,10 @@ async function processData() {
 
     console.log(`Total records fetched: ${allRecords.length}`);
 
-    // --- 3b. TRANSFORM ---
     console.log("Transforming data...");
     const transformedData = allRecords
       .map(transformRow)
-      .filter(row => row !== null); // Remove any rows that failed validation
+      .filter(row => row !== null); 
 
     console.log(`Successfully transformed ${transformedData.length} rows.`);
 
@@ -96,7 +84,6 @@ async function processData() {
       return;
     }
 
-    // --- 3c. LOAD ---
     console.log("Connecting to the database and loading data...");
     const cs = new pgp.helpers.ColumnSet([
       'report_date', 'state_name', 'district_name',
@@ -104,8 +91,6 @@ async function processData() {
       'wages_paid_total', 'payments_on_time_percent', 'women_persondays'
     ], { table: 'mgnrega_performance' });
 
-    // 'onConflict' is our key for automation. It updates existing records
-    // or inserts new ones.
     const query = pgp.helpers.insert(transformedData, cs) +
                   " ON CONFLICT(district_name, report_date) DO NOTHING";
 
@@ -122,5 +107,4 @@ async function processData() {
   }
 }
 
-// Run the main process
 processData();
