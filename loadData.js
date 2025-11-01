@@ -4,7 +4,7 @@ const pgp = require('pg-promise')();
 // --- 1. CONFIGURATION ---
 
 // PASTE YOUR SUPABASE CONNECTION STRING HERE (with encoded password)
-const DB_CONNECTION_STRING = "postgresql://postgres:Kanishk%40123@db.fijozxcvujbzamrwyqkw.supabase.co:5432/postgres";
+const DB_CONNECTION_STRING = "postgresql://postgres.fijozxcvujbzamrwyqkw:Kanishk%40123@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres";
 
 // PASTE YOUR API KEY FROM data.gov.in HERE
 const API_KEY = "579b464db66ec23bdd000001c86ebfa691574b6f72bc89a3bfda855d"; // Starts with 579b464...
