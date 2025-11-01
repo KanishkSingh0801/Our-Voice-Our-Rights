@@ -3,7 +3,7 @@ const cors = require('cors');
 const pgp = require('pg-promise')();
 const path = require('path'); 
 
-const DB_CONNECTION_STRING = "postgresql://postgres.fijozxcvujbzamrwyqkw:Kanishk%40123@aws-0-ap-south-1.pooler.supabase.com:5432/postgres";
+const DB_CONNECTION_STRING = "postgresql://postgres.fijozxcvujbzamrwyqkw:Kanishk%40123@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres";
 const PORT = 3001;
 
 const app = express();
