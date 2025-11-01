@@ -1,0 +1,23 @@
+# Node.js - Server (root folder)
+/node_modules
+.env
+npm-debug.log
+npm-debug.log*
+
+# Our manually downloaded CSV file
+*.csv
+
+# React - Client (sub-folder)
+client/node_modules
+client/build
+client/.env
+client/.env.local
+client/.env.development
+client/.env.test
+client/.env.production
+client/npm-debug.log
+client/npm-debug.log*
+
+# Operating System files
+.DS_Store
+Thumbs.db
