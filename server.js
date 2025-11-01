@@ -3,12 +3,8 @@ const cors = require('cors');
 const pgp = require('pg-promise')();
 const path = require('path'); 
 
-// --- 1. CONFIGURATION ---
-// PUT YOUR **NEW**, **ENCODED** PASSWORD HERE
-const DB_CONNECTION_STRING = "postgresql://postgres:Kanishk%40123@db.fijozxcvujbzamrwyqkw.supabase.co:5432/postgres";
-const PORT = 3001;
+const DB_CONNECTION_STRING = "postgresql://postgres.fijozxcvujbzamrwyqkw:Kanishk%40123@aws-0-ap-south-1.pooler.supabase.com:5432/postgres";
 
-// --- 2. SETUP & MIDDLEWARE ---
 const app = express();
 const db = pgp(DB_CONNECTION_STRING);
 app.use(cors());
